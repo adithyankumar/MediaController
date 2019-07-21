@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="media_item_size">250dp</dimen>
+    <dimen name="multi_media_item_width">230dp</dimen>
+    <dimen name="multi_media_item_height">240dp</dimen>
+    <dimen name="multi_media_item_title_height">60dp</dimen>
+    <dimen name="multi_media_item_title_text_size">24sp</dimen>
+
+</resources>
