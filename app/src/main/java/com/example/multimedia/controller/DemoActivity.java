@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.kidshome.multimediacontroller.R;
-import com.multimedia.controller.managers.SuperUserManager;
 import com.multimedia.controller.ui.fragment.MediaFragment;
 import com.multimedia.controller.utils.Constants;
 import com.multimedia.controller.utils.MediaTypeEnum;

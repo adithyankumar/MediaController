@@ -3,9 +3,11 @@
     <string name="image_added_successfully">Image added successfully</string>
     <string name="video_added_successfully">Video added successfully</string>
     <string name="audio_added_successfully">Audio added successfully</string>
+    <string name="doc_added_successfully">Document added successfully</string>
     <string name="image_deleted_successfully">Image deleted successfully</string>
     <string name="video_deleted_successfully">Video deleted successfully</string>
     <string name="audio_deleted_successfully">Audio deleted successfully</string>
+    <string name="doc_deleted_successfully">Document deleted successfully</string>
     <string name="music">Music</string>
     <string name="video">Video</string>
     <string name="photo">Photo</string>
@@ -16,4 +18,5 @@
     <string name="request_reason">We need read external storage permission to show contents to kid</string>
     <string name="item_selected">%1$d selected</string>
     <string name="format_not_supported">Format not supported.</string>
+    <string name="no_app_available">No app available.</string>
 </resources>

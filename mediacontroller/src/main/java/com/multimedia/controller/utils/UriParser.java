@@ -13,12 +13,12 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+
+
+import com.multimedia.controller.R;
 
 import java.io.File;
-
-/**
- * Created by AKrishnakuma on 6/12/2019.
- */
 
 public class UriParser {
     private final Context mContext;
@@ -32,6 +32,10 @@ public class UriParser {
 
     public String getMimeType() {
         return mContext.getContentResolver().getType(mUri).split("/")[0];
+    }
+
+    public String getMediaFormat(){
+        return mContext.getContentResolver().getType(mUri).split("/")[1];
     }
 
 
@@ -104,7 +108,7 @@ public class UriParser {
         return videoInfo;
     }
 
-    public String getMediaPath() {
+    public String getMediaPath(){
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
@@ -174,7 +178,19 @@ public class UriParser {
     public String getTitle(){
         String title = null;
         if (mUri != null){
-            title = new File(getMediaPath()).getName();
+            if (mUri.getScheme().equals("content")) {
+                Cursor cursor = mContext.getContentResolver().
+                        query(mUri, null, null, null, null);
+                try {
+                    if (cursor != null && cursor.moveToFirst()) {
+                        title = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    }
+                } finally {
+                    cursor.close();
+                }
+            }
+            if (title == null)
+                title = new File(getMediaPath()).getName();
         }
         return title;
     }
@@ -197,17 +213,17 @@ public class UriParser {
         }
         else if (MediaTypeEnum.isImage(mimeType)) {
             thumbImage = BitmapFactory.decodeFile(getMediaPath());
-        }else {
+        }else if(MediaTypeEnum.isVideo(mimeType)){
             thumbImage = ThumbnailUtils.createVideoThumbnail(getMediaPath(),
                     MediaStore.Images.Thumbnails.MINI_KIND);
+        }else {
+            thumbImage = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_doc);
         }
         return thumbImage;
     }
 
-    public static boolean isSupportFormat(String title){
-        String[] titleArray = title.split(".");
-        String format = titleArray[titleArray.length-1];
-        return  !format.equals("wma");
+    public static boolean isNotSupportFormat(String format){
+        return  format.contains("wma");
     }
 
     /**
@@ -277,4 +293,12 @@ public class UriParser {
         return "com.google.android.apps.photos.content".equals(mUri.getAuthority());
     }
 
+
+    /**
+     * @param mUri The Uri to check.
+     * @return Whether the Uri authority is Google Docs.
+     */
+    private static boolean isGoogleDocsUri(Uri mUri) {
+        return "com.google.android.apps.docs.storage".equals(mUri.getAuthority());
+    }
 }

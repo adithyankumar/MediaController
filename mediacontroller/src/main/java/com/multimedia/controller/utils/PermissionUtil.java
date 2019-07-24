@@ -9,7 +9,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 
-import com.temp.mediacontroller.R;
+import com.multimedia.controller.R;
 
 import java.util.ArrayList;
 import java.util.List;

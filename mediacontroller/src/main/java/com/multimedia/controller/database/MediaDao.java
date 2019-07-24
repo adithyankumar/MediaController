@@ -10,9 +10,6 @@ import com.multimedia.controller.utils.Media;
 
 import java.util.List;
 
-/**
- * Created by AKrishnakuma on 6/6/2019.
- */
 @Dao
 public interface MediaDao {
     @Insert
@@ -27,8 +24,8 @@ public interface MediaDao {
     @Query("select * from media_table Order By view_count Desc")
     List<Media> getMediaList();
 
-    @Query("select * from media_table where mime_type = :mimeType Order By view_count Desc")
+    @Query("select * from media_table where media_type = :mediaType Order By view_count Desc")
     //@Query("select * from media_table Order By viewCount Desc")
-    List<Media> getMediaList(String mimeType);
+    List<Media> getMediaList(String mediaType);
 }
 

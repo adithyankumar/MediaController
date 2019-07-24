@@ -4,11 +4,8 @@ import com.multimedia.controller.utils.Media;
 
 import java.util.List;
 
-/**
- * Created by AKrishnakuma on 6/20/2019.
- */
 
-public interface SuperVideoUserControls extends NormalVideoUserControls {
+public interface SuperUserVideoControls extends NormalUserVideoControls {
     void addVideoList(List<Media> mediaList, VideoAddListener videoAddListener);
     void deleteVideoList(List<Media> mediaList, VideoDeleteListener videoDeleteListener);
 }

@@ -2,6 +2,7 @@ package com.multimedia.controller.managers;
 
 import android.content.Context;
 
+import com.multimedia.controller.interfaces.DocFetchListener;
 import com.multimedia.controller.utils.MediaTypeEnum;
 import com.multimedia.controller.database.MediaDao;
 import com.multimedia.controller.database.MediaDatabase;
@@ -9,9 +10,6 @@ import com.multimedia.controller.interfaces.AudioFetchListener;
 import com.multimedia.controller.interfaces.ImageFetchListener;
 import com.multimedia.controller.interfaces.VideoFetchListener;
 
-/**
- * Created by AKrishnakuma on 6/25/2019.
- */
 
  class NormalUserRepository {
     final MediaDao mediaDao;
@@ -45,6 +43,16 @@ import com.multimedia.controller.interfaces.VideoFetchListener;
                 videoFetchListener.onVideoFetchSuccess(mediaDao.getMediaList(MediaTypeEnum.VIDEO.toString()));
             }catch (Exception e){
                 videoFetchListener.onVideoFetchFailure(e.getMessage());
+            }
+        });
+    }
+
+    public void getDocList(final DocFetchListener docFetchListener){
+        mediaDatabase.runInTransaction(() -> {
+            try {
+                docFetchListener.onDocFetchSuccess(mediaDao.getMediaList(MediaTypeEnum.DOC.toString()));
+            }catch (Exception e){
+                docFetchListener.onDocFetchFailure(e.getMessage());
             }
         });
     }

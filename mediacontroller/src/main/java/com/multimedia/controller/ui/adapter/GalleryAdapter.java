@@ -11,14 +11,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.multimedia.controller.ui.OnListFragmentInteractionListener;
 import com.multimedia.controller.utils.Media;
-import com.temp.mediacontroller.R;
+import com.multimedia.controller.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by AKrishnakuma on 6/15/2019.
- */
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryAdapterViewHolder> {
 

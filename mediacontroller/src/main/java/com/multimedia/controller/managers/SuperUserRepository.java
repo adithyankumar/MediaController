@@ -2,8 +2,10 @@ package com.multimedia.controller.managers;
 
 import android.content.Context;
 
+import com.multimedia.controller.R;
+import com.multimedia.controller.interfaces.DocAddListener;
+import com.multimedia.controller.interfaces.DocDeleteListener;
 import com.multimedia.controller.utils.Media;
-import com.temp.mediacontroller.R;
 import com.multimedia.controller.interfaces.AudioAddListener;
 import com.multimedia.controller.interfaces.AudioDeleteListener;
 import com.multimedia.controller.interfaces.ImageAddListener;
@@ -14,9 +16,6 @@ import com.multimedia.controller.interfaces.VideoDeleteListener;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-/**
- * Created by AKrishnakuma on 6/25/2019.
- */
 
  class SuperUserRepository extends NormalUserRepository {
     private static SuperUserRepository instance;
@@ -110,4 +109,30 @@ import java.util.List;
             }
         });
     }
+
+    public void addDocList(final List<Media> mediaList, final DocAddListener docAddListener) {
+        mediaDatabase.runInTransaction(() -> {
+            try {
+                mediaDao.insert(mediaList);
+                docAddListener.onDocAddSuccess(mediaList,
+                        context.getString(R.string.doc_added_successfully));
+            } catch (Exception e) {
+                docAddListener.onDocAddFailure(e.getMessage());
+            }
+        });
+
+    }
+
+    public void deleteDocList(final List<Media> mediaList, final DocDeleteListener docDeleteListener) {
+        mediaDatabase.runInTransaction(() -> {
+            try {
+                mediaDao.delete(mediaList);
+                docDeleteListener.onDocDeleteSuccess(mediaList,
+                        context.getString(R.string.doc_deleted_successfully));
+            } catch (Exception e) {
+                docDeleteListener.onDocDeleteFailure(e.getMessage());
+            }
+        });
+    }
+    
 }

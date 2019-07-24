@@ -40,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
                 DemoActivity.startDemoActivity(this, true, MediaTypeEnum.VIDEO)
         );
 
+
+        findViewById(R.id.btn_normal_user_doc_layout).setOnClickListener(v ->
+                DemoActivity.startDemoActivity(this, false, MediaTypeEnum.DOC)
+        );
+
+        findViewById(R.id.btn_super_user_doc_layout).setOnClickListener(v ->
+                DemoActivity.startDemoActivity(this, true, MediaTypeEnum.DOC)
+        );
+
     }
 
 }

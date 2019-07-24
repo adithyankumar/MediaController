@@ -2,12 +2,8 @@ package com.multimedia.controller.utils;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.temp.mediacontroller.R;
+import com.multimedia.controller.R;
 
-
-/**
- * Created by AKrishnakuma on 6/17/2019.
- */
 
 public class CheckPermissionUtil {
     public static final int READ_SD_REQ_CODE = 201;

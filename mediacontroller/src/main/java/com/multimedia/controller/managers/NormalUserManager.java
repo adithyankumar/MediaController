@@ -3,18 +3,16 @@ package com.multimedia.controller.managers;
 import android.content.Context;
 
 import com.multimedia.controller.interfaces.AudioFetchListener;
+import com.multimedia.controller.interfaces.DocFetchListener;
 import com.multimedia.controller.interfaces.ImageFetchListener;
-import com.multimedia.controller.interfaces.NormalAudioUserControls;
-import com.multimedia.controller.interfaces.NormalImageUserControls;
-import com.multimedia.controller.interfaces.NormalVideoUserControls;
+import com.multimedia.controller.interfaces.NormalUserAudioControls;
+import com.multimedia.controller.interfaces.NormalUserDocControls;
+import com.multimedia.controller.interfaces.NormalUserImageControls;
+import com.multimedia.controller.interfaces.NormalUserVideoControls;
 import com.multimedia.controller.interfaces.VideoFetchListener;
 
-/**
- * Created by AKrishnakuma on 6/20/2019.
- */
-
-public class NormalUserManager implements NormalImageUserControls,
-        NormalVideoUserControls , NormalAudioUserControls{
+public class NormalUserManager implements NormalUserImageControls,
+        NormalUserVideoControls, NormalUserAudioControls, NormalUserDocControls {
 
     private static NormalUserManager instance;
     private final NormalUserRepository normalUserRepository;
@@ -41,5 +39,10 @@ public class NormalUserManager implements NormalImageUserControls,
     @Override
     public void getVideoList(VideoFetchListener videoFetchListener) {
         normalUserRepository.getVideoList(videoFetchListener);
+    }
+
+    @Override
+    public void getDocList(DocFetchListener docFetchListener) {
+        normalUserRepository.getDocList(docFetchListener);
     }
 }

@@ -15,8 +15,7 @@
         </activity>
         <activity
             android:name="com.example.multimedia.controller.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 

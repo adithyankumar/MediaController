@@ -1,6 +1,7 @@
 package com.multimedia.controller.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,14 +13,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.multimedia.controller.ui.OnListFragmentInteractionListener;
 import com.multimedia.controller.utils.Media;
-import com.temp.mediacontroller.R;
+import com.multimedia.controller.utils.MediaTypeEnum;
+import com.multimedia.controller.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by AKrishnakuma on 6/6/2019.
- */
 
 public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHolder> {
 
@@ -27,9 +25,11 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
     private List<Media> mediaList = new ArrayList<>();
     private Context mContext;
     private final OnListFragmentInteractionListener listener;
+    private boolean isSuperUser;
 
-    public MediaAdapter(OnListFragmentInteractionListener listener){
+    public MediaAdapter(OnListFragmentInteractionListener listener, boolean isSuperUser){
         this.listener = listener;
+        this.isSuperUser = isSuperUser;
     }
     public void setMediaList(List<Media> mediaList){
         this.mediaList = mediaList;
@@ -51,10 +51,16 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
         Media media =  mediaList.get(position);
         boolean isSelected = Boolean.parseBoolean(String.valueOf(holder.itemView.getTag()));
         holder.selectionView.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+        Bitmap bitmap = media.getThumbNail(mContext);
+        holder.img.setScaleType( bitmap == null || MediaTypeEnum.isDoc(media.getMimeType())
+                ? ImageView.ScaleType.FIT_CENTER
+                : ImageView.ScaleType.CENTER_CROP);
         Glide.with(mContext)
-                    .load(media.getThumbNail(mContext))
+                    .load(bitmap)
+                    .thumbnail()
                     .error(R.drawable.ic_music)
                     .into(holder.img);
+
         holder.tvTitle.setText(media.getTitle());
         holder.tvTitle.setSelected(true);
     }
@@ -88,12 +94,11 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
         @Override
         public boolean onLongClick(View v) {
-            selectView();
+            if (isSuperUser) selectView();
             return true;
         }
         private void selectView(){
-            boolean isSelected;
-            isSelected = !Boolean.parseBoolean(String.valueOf(itemView.getTag()));
+            boolean isSelected = !Boolean.parseBoolean(String.valueOf(itemView.getTag()));
             itemView.setTag(String.valueOf(isSelected));
             listener.onListFragmentInteraction(true, mediaList.get(getAdapterPosition()));
             onBindViewHolder(this, getAdapterPosition());

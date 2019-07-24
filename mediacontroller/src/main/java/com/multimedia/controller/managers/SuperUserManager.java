@@ -2,28 +2,30 @@ package com.multimedia.controller.managers;
 
 import android.content.Context;
 
-import com.multimedia.controller.utils.Media;
 import com.multimedia.controller.interfaces.AudioAddListener;
 import com.multimedia.controller.interfaces.AudioDeleteListener;
 import com.multimedia.controller.interfaces.AudioFetchListener;
+import com.multimedia.controller.interfaces.DocAddListener;
+import com.multimedia.controller.interfaces.DocDeleteListener;
+import com.multimedia.controller.interfaces.DocFetchListener;
 import com.multimedia.controller.interfaces.ImageAddListener;
 import com.multimedia.controller.interfaces.ImageDeleteListener;
 import com.multimedia.controller.interfaces.ImageFetchListener;
-import com.multimedia.controller.interfaces.SuperNormalAudioUserControls;
-import com.multimedia.controller.interfaces.SuperNormalImageUserControls;
-import com.multimedia.controller.interfaces.SuperVideoUserControls;
+import com.multimedia.controller.interfaces.SuperUserAudioControls;
+import com.multimedia.controller.interfaces.SuperUserDocControls;
+import com.multimedia.controller.interfaces.SuperUserImageControls;
+import com.multimedia.controller.interfaces.SuperUserVideoControls;
 import com.multimedia.controller.interfaces.VideoAddListener;
 import com.multimedia.controller.interfaces.VideoDeleteListener;
 import com.multimedia.controller.interfaces.VideoFetchListener;
+import com.multimedia.controller.utils.Media;
 
 import java.util.List;
 
-/**
- * Created by AKrishnakuma on 6/20/2019.
- */
 
-public class SuperUserManager implements SuperNormalImageUserControls,
-        SuperNormalAudioUserControls, SuperVideoUserControls{
+
+public class SuperUserManager implements SuperUserImageControls,
+        SuperUserAudioControls, SuperUserVideoControls , SuperUserDocControls{
 
     private static SuperUserManager instance;
     private final SuperUserRepository superUserRepository;
@@ -81,5 +83,20 @@ public class SuperUserManager implements SuperNormalImageUserControls,
     @Override
     public void deleteAudioList(List<Media> mediaList, AudioDeleteListener audioDeleteListener) {
         superUserRepository.deleteAudioList(mediaList, audioDeleteListener);
+    }
+
+    @Override
+    public void addDocList(List<Media> mediaList, DocAddListener docAddListener) {
+        superUserRepository.addDocList(mediaList, docAddListener);
+    }
+
+    @Override
+    public void deleteDocList(List<Media> mediaList, DocDeleteListener docDeleteListener) {
+        superUserRepository.deleteDocList(mediaList, docDeleteListener);
+    }
+
+    @Override
+    public void getDocList(DocFetchListener docFetchListener) {
+        superUserRepository.getDocList(docFetchListener);
     }
 }
