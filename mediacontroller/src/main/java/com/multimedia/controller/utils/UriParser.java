@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.TextUtils;
 
 
 import com.multimedia.controller.R;
@@ -34,56 +35,56 @@ public class UriParser {
         return mContext.getContentResolver().getType(mUri).split("/")[0];
     }
 
-    public String getMediaFormat(){
+    public String getMediaFormat() {
         return mContext.getContentResolver().getType(mUri).split("/")[1];
     }
 
 
-        public AudioInfo getAudioInfo() {
-            AudioInfo audioInfo = null;
+    public AudioInfo getAudioInfo() {
+        AudioInfo audioInfo = null;
 
-            ContentResolver musicResolver = mContext.getContentResolver();
-            Cursor audioCursor = musicResolver.query(mUri, null, null, null, null);
-            //iterate over results if valid
-            if (audioCursor != null && audioCursor.moveToFirst()) {
-                //get columns
-                int titleColumn = audioCursor.getColumnIndex
-                        (android.provider.MediaStore.Audio.Media.TITLE);
-                int idColumn = audioCursor.getColumnIndex
-                        (android.provider.MediaStore.Audio.Media._ID);
-                int artistColumn = audioCursor.getColumnIndex
-                        (android.provider.MediaStore.Audio.Media.ARTIST);
-                int albumIdColumn = audioCursor.getColumnIndex
-                        (MediaStore.Audio.Media.ALBUM_ID);
-                int albumColumn = audioCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+        ContentResolver musicResolver = mContext.getContentResolver();
+        Cursor audioCursor = musicResolver.query(mUri, null, null, null, null);
+        //iterate over results if valid
+        if (audioCursor != null && audioCursor.moveToFirst()) {
+            //get columns
+            int titleColumn = audioCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.TITLE);
+            int idColumn = audioCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media._ID);
+            int artistColumn = audioCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.ARTIST);
+            int albumIdColumn = audioCursor.getColumnIndex
+                    (MediaStore.Audio.Media.ALBUM_ID);
+            int albumColumn = audioCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
 
-                int durationColumn = audioCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_KEY);
+            int durationColumn = audioCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_KEY);
 
-                int bookmarkColumn = audioCursor.getColumnIndex(MediaStore.Audio.Media.BOOKMARK);
+            int bookmarkColumn = audioCursor.getColumnIndex(MediaStore.Audio.Media.BOOKMARK);
 
-                audioInfo = new AudioInfo(audioCursor.getString(titleColumn),
-                        audioCursor.getLong(idColumn),
-                        audioCursor.getString(artistColumn),
-                        audioCursor.getString(albumColumn),
-                        audioCursor.getLong(albumIdColumn),
-                        audioCursor.getLong(durationColumn),
-                        audioCursor.getLong(bookmarkColumn));
+            audioInfo = new AudioInfo(audioCursor.getString(titleColumn),
+                    audioCursor.getLong(idColumn),
+                    audioCursor.getString(artistColumn),
+                    audioCursor.getString(albumColumn),
+                    audioCursor.getLong(albumIdColumn),
+                    audioCursor.getLong(durationColumn),
+                    audioCursor.getLong(bookmarkColumn));
 
-                audioCursor.close();
-            }
-
-            return audioInfo;
+            audioCursor.close();
         }
 
-        public VideoInfo getVideoInfo() {
-            VideoInfo videoInfo = null;
+        return audioInfo;
+    }
 
-            ContentResolver musicResolver = mContext.getContentResolver();
-            Cursor videoCursor = musicResolver.query(mUri, null, null, null, null);
-            //iterate over results if valid
-            if (videoCursor != null && videoCursor.moveToFirst()) {
-                //get columns
-                int titleColumn = videoCursor.getColumnIndex
+    public VideoInfo getVideoInfo() {
+        VideoInfo videoInfo = null;
+
+        ContentResolver musicResolver = mContext.getContentResolver();
+        Cursor videoCursor = musicResolver.query(mUri, null, null, null, null);
+        //iterate over results if valid
+        if (videoCursor != null && videoCursor.moveToFirst()) {
+            //get columns
+            int titleColumn = videoCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.TITLE);
             int idColumn = videoCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media._ID);
@@ -108,7 +109,7 @@ public class UriParser {
         return videoInfo;
     }
 
-    public String getMediaPath(){
+    public String getMediaPath() {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
@@ -131,11 +132,57 @@ public class UriParser {
             // DownloadsProvider
             else if (isDownloadsDocument(mUri)) {
 
-                final String id = DocumentsContract.getDocumentId(mUri);
+
+                /*final String id = DocumentsContract.getDocumentId(mUri);
                 final Uri contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
-                return getColumnForImageData(mContext, contentUri, null, null);
+                return getColumnForImageData(mContext, contentUri, null, null);*/
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    final String id;
+                    Cursor cursor = null;
+                    try {
+                        cursor = mContext.getContentResolver()
+                                .query(mUri,
+                                        new String[]{MediaStore.MediaColumns.DISPLAY_NAME},
+                                        null, null, null);
+                        if (cursor != null && cursor.moveToFirst()) {
+                            String fileName = cursor.getString(0);
+                            String path = Environment.
+                                    getExternalStorageDirectory().toString() + "/Download/" + fileName;
+                            if (!TextUtils.isEmpty(path)) {
+                                return path;
+                            }
+                        }
+                    } finally {
+                        if (cursor != null)
+                            cursor.close();
+                    }
+                    id = DocumentsContract.getDocumentId(mUri);
+                    if (!TextUtils.isEmpty(id)) {
+                        if (id.startsWith("raw:")) {
+                            return id.replaceFirst("raw:", "");
+                        }
+                        String[] contentUriPrefixesToTry = new String[]{
+                                "content://downloads/public_downloads",
+                                "content://downloads/my_downloads"
+                        };
+                        for (String contentUriPrefix : contentUriPrefixesToTry) {
+                            try {
+                                final Uri contentUri = ContentUris.
+                                        withAppendedId(Uri.parse(contentUriPrefix), Long.valueOf(id));
+                                return getColumnForImageData(mContext, contentUri,
+                                        null, null);
+                            } catch (NumberFormatException e) {
+                                //In Android 8 and Android P the id is not a number
+                                return mUri.getPath()
+                                        .replaceFirst("^/document/raw:", "")
+                                        .replaceFirst("^raw:", "");
+                            }
+                        }
+                    }
+                }
+
             }
             // MediaProvider
             else if (isMediaDocument(mUri)) {
@@ -175,9 +222,10 @@ public class UriParser {
 
         return null;
     }
-    public String getTitle(){
+
+    public String getTitle() {
         String title = null;
-        if (mUri != null){
+        if (mUri != null) {
             if (mUri.getScheme().equals("content")) {
                 Cursor cursor = mContext.getContentResolver().
                         query(mUri, null, null, null, null);
@@ -205,25 +253,25 @@ public class UriParser {
                 byte[] art = retriever.getEmbeddedPicture();
                 thumbImage = BitmapFactory
                         .decodeByteArray(art, 0, art.length);
-            }catch (Exception e){e.printStackTrace();}
-            finally {
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
                 retriever.release();
             }
 
-        }
-        else if (MediaTypeEnum.isImage(mimeType)) {
+        } else if (MediaTypeEnum.isImage(mimeType)) {
             thumbImage = BitmapFactory.decodeFile(getMediaPath());
-        }else if(MediaTypeEnum.isVideo(mimeType)){
+        } else if (MediaTypeEnum.isVideo(mimeType)) {
             thumbImage = ThumbnailUtils.createVideoThumbnail(getMediaPath(),
                     MediaStore.Images.Thumbnails.MINI_KIND);
-        }else {
+        } else {
             thumbImage = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_doc);
         }
         return thumbImage;
     }
 
-    public static boolean isNotSupportFormat(String format){
-        return  format.contains("wma");
+    public static boolean isNotSupportFormat(String format) {
+        return format.contains("wma");
     }
 
     /**

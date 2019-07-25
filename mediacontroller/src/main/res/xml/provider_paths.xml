@@ -6,13 +6,14 @@
     <external-files-path
         name="external_files"
         path="." />
+    <root-path name="external_files" path="/storage/" />
+    <files-path
+        name="files"
+        path="." />
     <cache-path
         name="cache"
         path="." />
     <external-cache-path
         name="external_cache"
-        path="." />
-    <files-path
-        name="files"
         path="." />
 </paths>

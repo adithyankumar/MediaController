@@ -96,6 +96,7 @@ public class MediaFragment extends Fragment implements OnListFragmentInteraction
         return mediaFragment;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -131,9 +132,7 @@ public class MediaFragment extends Fragment implements OnListFragmentInteraction
                         Intent intent = new Intent();
                         if (MediaTypeEnum.DOC == mimeType){
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                intent.setType(MediaTypeEnum.docMimeType.length == 1
-                                        ? MediaTypeEnum.docMimeType[0]
-                                        : "*/*");
+                                intent.setType(MediaTypeEnum.docMimeType.length == 1 ? MediaTypeEnum.docMimeType[0] : "*/*");
                                 if (MediaTypeEnum.docMimeType.length > 0) {
                                     intent.putExtra(Intent.EXTRA_MIME_TYPES, MediaTypeEnum.docMimeType);
                                 }
@@ -278,7 +277,7 @@ public class MediaFragment extends Fragment implements OnListFragmentInteraction
                         /*String.format(getString(R.string.mime_type), item.getMimeType())*/
                         item.getMimeType() + "/" + item.getMediaFormat()
                 );
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 if (intent.resolveActivity(mContext.getPackageManager()) != null) {
                     startActivity(intent);
                 } else {
