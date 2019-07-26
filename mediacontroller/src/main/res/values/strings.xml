@@ -15,7 +15,7 @@
     <string name="mime_type">%1$s/*</string>
     <string name="title_activity_player">PlayerActivity</string>
     <string name="change_setting">Change Setting</string>
-    <string name="request_reason">We need read external storage permission to show contents to kid</string>
+    <string name="request_reason">You need to give permission for reading external storage to access the contents.</string>
     <string name="item_selected">%1$d selected</string>
     <string name="format_not_supported">Format not supported.</string>
     <string name="no_app_available">No app available.</string>

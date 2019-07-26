@@ -19,7 +19,7 @@ android {
             buildConfigField "String", "contentProviderAuthority", generateContentProviderAuthority()
         }*/
         release {
-          //  buildConfigField "String", "contentProviderAuthority", generateContentProviderAuthority()
+            //  buildConfigField "String", "contentProviderAuthority", generateContentProviderAuthority()
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

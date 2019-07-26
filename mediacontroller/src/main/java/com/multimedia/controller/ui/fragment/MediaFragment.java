@@ -303,7 +303,7 @@ public class MediaFragment extends Fragment implements OnListFragmentInteraction
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            if (/*requestCode == PICK_MULTI_MEDIA_MULTIPLE && */resultCode == RESULT_OK && data != null) {
+            if (requestCode == PICK_MULTI_MEDIA_MULTIPLE && resultCode == RESULT_OK && data != null) {
                 ArrayList<Media> tempMediaList = new ArrayList<>();
                 if (data.getData() != null) {
                     Uri uri = data.getData();

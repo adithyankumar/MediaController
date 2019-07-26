@@ -35,7 +35,19 @@ public class Media implements Parcelable {
 
     }
 
+    /**
+     * @param context context of the class
+     * @param uriString uri string of the file
+     * @param mediaType media type of file .
+     *For Image -> MediaTypeEnum.IMAGE.toString() or "image"
+     *For Video -> MediaTypeEnum.VIDEO.toString() or "video"
+     *For Audio -> MediaTypeEnum.AUDIO.toString() or "audio"
+     *For Document -> MediaTypeEnum.DOC.toString() or "document"
+     *
+     * @throws NoMediaFoundException
+     */
     public Media(Context context, String uriString, String mediaType) throws NoMediaFoundException {
+
         uriParser = new UriParser(context, uriString);
         setUriString(uriString);
         setViewCount(0);

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -15,7 +17,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
-
 
 import com.multimedia.controller.R;
 
@@ -203,7 +204,6 @@ public class UriParser {
                 final String[] selectionArgs = new String[]{
                         split[1]
                 };
-
                 return getColumnForImageData(mContext, contentUri, selection, selectionArgs);
             }
         }
@@ -246,10 +246,11 @@ public class UriParser {
     public Bitmap getThumbNail() {
         Bitmap thumbImage = null;
         String mimeType = getMimeType();
+        String filePath = getMediaPath();
         if (MediaTypeEnum.isAudio(mimeType)) {
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
             try {
-                retriever.setDataSource(getMediaPath());
+                retriever.setDataSource(filePath);
                 byte[] art = retriever.getEmbeddedPicture();
                 thumbImage = BitmapFactory
                         .decodeByteArray(art, 0, art.length);
@@ -260,9 +261,38 @@ public class UriParser {
             }
 
         } else if (MediaTypeEnum.isImage(mimeType)) {
-            thumbImage = BitmapFactory.decodeFile(getMediaPath());
+            int rotation = 0;
+            try {
+                ExifInterface exifInterface = new ExifInterface(filePath);
+                int exifRotation = exifInterface.
+                        getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                ExifInterface.ORIENTATION_UNDEFINED);
+                switch (exifRotation) {
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotation = 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotation = 270;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotation = 90;
+                        break;
+                }
+                byte[] thumbNailBytes = exifInterface.getThumbnail();
+                if (rotation != 0 && thumbNailBytes != null) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(thumbNailBytes,
+                            0, thumbNailBytes.length - 1);
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(rotation);
+                    thumbImage = Bitmap.createBitmap(bitmap, 0, 0,
+                            bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                }else
+                     thumbImage = BitmapFactory.decodeFile(getMediaPath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else if (MediaTypeEnum.isVideo(mimeType)) {
-            thumbImage = ThumbnailUtils.createVideoThumbnail(getMediaPath(),
+            thumbImage = ThumbnailUtils.createVideoThumbnail(filePath,
                     MediaStore.Images.Thumbnails.MINI_KIND);
         } else {
             thumbImage = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_doc);

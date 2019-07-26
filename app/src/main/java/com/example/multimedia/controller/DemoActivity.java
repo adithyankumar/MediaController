@@ -5,13 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
 import com.kidshome.multimediacontroller.R;
+import com.multimedia.controller.interfaces.AudioFetchListener;
+import com.multimedia.controller.interfaces.ImageAddListener;
+import com.multimedia.controller.interfaces.ImageFetchListener;
+import com.multimedia.controller.managers.NormalUserManager;
+import com.multimedia.controller.managers.SuperUserManager;
 import com.multimedia.controller.ui.fragment.MediaFragment;
 import com.multimedia.controller.utils.Constants;
+import com.multimedia.controller.utils.Media;
 import com.multimedia.controller.utils.MediaTypeEnum;
 
-public class DemoActivity extends BaseActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DemoActivity extends AppCompatActivity {
 
     private String TAG = DemoActivity.class.getSimpleName();
     private Intent intent;
@@ -42,58 +52,7 @@ public class DemoActivity extends BaseActivity {
                         MediaFragment.newInstance(isSuperUser, mediaTypeEnum))
                 .commit();
 
-
-        //User user = UserGenrator.getUser(USER_NORMAL)
-
-        // user.getImageList();
-        //user.getVideos();
-
-
-//       SuperUserManager userManager = SuperUserManager.getInstance(this);
-
-        /*userManager.addImageList(new ArrayList<>(), new ImageAddListener() {
-            @Override
-            public void onImageAddSuccess(String message) {
-
-            }
-
-            @Override
-            public void onImageAddFailure(String errorMessage) {
-
-            }
-        });
-       userManager.getVideoList(new VideoFetchListener() {
-           @Override
-           public void onVideoFetchSuccess(List<Media> imageList) {
-                textView.setText("onVideoFetchSuccess = "+imageList.toString());
-               Log.e(TAG, "onVideoFetchSuccess: "+imageList.size());
-           }
-
-           @Override
-           public void onVideoFetchFailure(String errorMessage) {
-                textView.setText("onVideoFetchFailure" +errorMessage);
-               Log.e(TAG, "onVideoFetchFailure" +errorMessage);
-
-           }
-       });*/
-
-
-/*
-        SuperUserManager superUserManager = SuperUserManager.getInstance(this);
-        superUserManager.getImageList(new ImageFetchListener() {
-            @Override
-            public void onImageFetchSuccess(List<Media> imageList) {
-
-            }
-
-            @Override
-            public void onImageFetchFailure(String errorMessage) {
-
-            }
-        });
-*/
-
-    }
+     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

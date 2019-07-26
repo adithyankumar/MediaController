@@ -9,6 +9,14 @@ import java.util.List;
  */
 
 public interface ImageAddListener {
+    /**
+     * @param mediaList list of media added
+     * @param message success message
+     */
     void onImageAddSuccess(List<Media> mediaList, String message);
+
+    /**
+     * @param errorMessage error message
+     */
     void onImageAddFailure(String errorMessage);
 }
