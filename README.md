@@ -6,7 +6,7 @@ MediaController helps user to fetch, display, add and delete differnt media file
 Also provides built in view to perform the fuctionalities with basic UI.
     
 # Download 
-You can download arr from Github's [release page]()
+You can download project from Github's [release page](https://github.com/adithyankumar/MediaController/releases/tag/1.0.0-beta)
     
 or use Gradle :
     
@@ -26,7 +26,7 @@ Add the dependency
     
 ```
 dependencies {
-    implementation 'com.github.adithyankumar:Texter:0.1.0'
+    implementation 'com.github.adithyankumar:MediaController:1.0.0-beta'
     }
 ```
     
@@ -46,11 +46,11 @@ Add the JitPack repository to your build file
 Add the dependency
     	
     ```
-        <dependency>
-    	    <groupId>com.github.adithyankumar</groupId>
-    	    <artifactId>Texter</artifactId>
-    	    <version>0.1.0</version>
-    	</dependency>  		
+       <dependency>
+       	    <groupId>com.github.adithyankumar</groupId>
+       	    <artifactId>MediaController</artifactId>
+       	    <version>1.0.0-beta</version>
+       	</dependency>
     ```
     
 # How to use MediaController ?
@@ -115,7 +115,7 @@ MediaController gives two different user access controller
 **Normal User :**
     To use Normal user functionality , use the below code     
         
-    ```     
+```     
     // create instance of NormalUserManager
                 NormalUserManager userManager = NormalUserManager.getInstance(this);
                 //fetch image file
@@ -168,6 +168,42 @@ MediaController gives two different user access controller
                 });
          
          
-      ```
+```
          
          
+**Integrate default fragment 
+
+ In your MainActivity , inside your onCreate add below code
+
+   
+`
+   //pass isSuperUser - true/false based on user access control
+   //pass Media type ->  MediaTypeEnum.IMAGE / MediaTypeEnum.VIDEO /MediaTypeEnum.AUDIO /MediaTypeEnum.DOC
+    getSupportFragmentManager()
+    .beginTransaction()
+    .add(R.id.container, MediaFragment.newInstance(isSuperUser, MediaTypeEnum.IMAGE))
+    .commit();
+`
+ Also override onActivityResult in MainActivity and below code inside
+ 
+`
+    @Override
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            for (Fragment fragment : getSupportFragmentManager().getFragments()){
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+`
+Also can customize theme style by adding in your colors.xml . Can your favourite colors for **PrimaryColor** ,
+**PrimaryColorDark** and **ColorAccent**
+ 
+`
+<resources>
+    <color name="colorPrimary">#e9b53f57</color>
+    <color name="colorPrimaryDark">#b53f47</color>
+    <color name="colorAccent">#40a9ff</color>
+</resources>
+
+` 
+
