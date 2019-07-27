@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:focusable="true">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/gallery_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rv_gallery_list"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@android:color/black"
+        android:id="@+id/rv_gallery_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"/>
+</RelativeLayout>

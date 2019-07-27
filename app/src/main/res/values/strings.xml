@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MultiMediaController</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="normal_user_image_screen">Normal User Image Screen</string>
+    <string name="normal_user_video_screen">Normal User Video Screen</string>
+    <string name="normal_user_audio_screen">Normal User Audio Screen</string>
+    <string name="normal_user_doc_screen">Normal User Document Screen</string>
+    <string name="super_user_image_screen">Super User Image Screen</string>
+    <string name="super_user_video_screen">Super User Video Screen</string>
+    <string name="super_user_audio_screen">Super User Audio Screen</string>
+    <string name="super_user_doc_screen">Super User Document Screen</string>
+</resources>
