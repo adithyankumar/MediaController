@@ -196,7 +196,7 @@ Also override onActivityResult in MainActivity and below code inside
             }
         }
 ```
-Also can customize theme style by adding in your colors.xml . Can your favourite colors for **PrimaryColor** ,
+Also can customize theme style by adding in your colors.xml . Can add your favourite colors for **PrimaryColor** ,
 **PrimaryColorDark** and **ColorAccent**
  
 ```
