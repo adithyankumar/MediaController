@@ -1,38 +1,38 @@
-#MediaController
-    MediaController give two different user access control for the files like ** Super User ** and ** Normal User **.
-    MediaController helps user to fetch, display, add and delete differnt media file **( Image, Video, Audio and Document )** from internal and external memory to app. 
-    ** Super User ** can fetch , display, add and delete file in our app.
-    ** Normal User ** can fetch and display file in our app.
-    Also provides built in view to perform the fuctionalities with basic UI.
+# MediaController
+MediaController give two different user access control for the files like **Super User** and **Normal User**.
+MediaController helps user to fetch, display, add and delete differnt media file **( Image, Video, Audio and Document )** from internal and external memory to app. 
+**Super User** can fetch , display, add and delete file in our app.
+**Normal User** can fetch and display file in our app.
+Also provides built in view to perform the fuctionalities with basic UI.
     
-#Download 
-    You can download arr from Github's [release page]()
+# Download 
+You can download arr from Github's [release page]()
     
-    or use Gradle :
+or use Gradle :
     
-    Add it in your root build.gradle at the end of repositories:
+Add it in your root build.gradle at the end of repositories:
     
-    ```
-    allprojects {
-    		repositories {
-    			...
-    			maven { url 'https://jitpack.io' }
-    		}
-    	}
+```
+allprojects {
+    repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+    }
+}
      
-    ```
+```
     
-    Add the dependency
+Add the dependency
     
-    ```
-    dependencies {
-    	        implementation 'com.github.adithyankumar:Texter:0.1.0'
-    	}
-    ```
+```
+dependencies {
+    implementation 'com.github.adithyankumar:Texter:0.1.0'
+    }
+```
     
-    or Maven :
+or Maven :
     	
-    Add the JitPack repository to your build file
+Add the JitPack repository to your build file
     	
     ```
     <repositories>
@@ -40,28 +40,27 @@
     		    <id>jitpack.io</id>
     		    <url>https://jitpack.io</url>
     		</repository>
-    	</repositories>
+    </repositories>
     
     ```		
-    Add the dependency
+Add the dependency
     	
     ```
-    <dependency>
+        <dependency>
     	    <groupId>com.github.adithyankumar</groupId>
     	    <artifactId>Texter</artifactId>
     	    <version>0.1.0</version>
-    	</dependency>
-    		
+    	</dependency>  		
     ```
     
 # How to use MediaController ?
     
-    MediaController gives two different user access controller 
+MediaController gives two different user access controller 
      
-    ** Super User :**
-        To use Super user functionality , use the below code 
+**Super User:**
+    To use Super user functionality , use the below code 
         
-     ```
+    ```
         // create instance of SuperUserManager
         SuperUserManager superUserManager = SuperUserManager.getInstance(this);
         
@@ -111,14 +110,13 @@
             }
           });
         
-        ````
+    ```
         
-      ** Normal User :**
-            To use Normal user functionality , use the below code     
+**Normal User :**
+    To use Normal user functionality , use the below code     
         
-        ```
-            
-        // create instance of NormalUserManager
+    ```     
+    // create instance of NormalUserManager
                 NormalUserManager userManager = NormalUserManager.getInstance(this);
                 //fetch image file
                 userManager.getImageList(new ImageFetchListener() {
@@ -170,6 +168,6 @@
                 });
          
          
-         ```
+      ```
          
          
