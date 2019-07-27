@@ -1,9 +1,9 @@
 # MediaController
 MediaController give two different user access control for the files like **Super User** and **Normal User**.
-MediaController helps user to fetch, display, add and delete differnt media file **( Image, Video, Audio and Document )** from internal and external memory to app. 
+MediaController helps user to fetch, display, add and delete different media file **( Image, Video, Audio and Document )** from internal and external memory to app. 
 **Super User** can fetch , display, add and delete file in our app.
 **Normal User** can fetch and display file in our app.
-Also provides built in view to perform the fuctionalities with basic UI.
+Also provides built in view to perform the functionalities with basic UI.
     
 # Download 
 You can download project from Github's [release page](https://github.com/adithyankumar/MediaController/releases/tag/1.0.0-beta)
@@ -171,22 +171,23 @@ MediaController gives two different user access controller
 ```
          
          
-**Integrate default fragment 
+# Integrate default fragment 
 
- In your MainActivity , inside your onCreate add below code
+In your MainActivity , inside your onCreate add below code
 
    
-`
+```
    //pass isSuperUser - true/false based on user access control
    //pass Media type ->  MediaTypeEnum.IMAGE / MediaTypeEnum.VIDEO /MediaTypeEnum.AUDIO /MediaTypeEnum.DOC
     getSupportFragmentManager()
     .beginTransaction()
     .add(R.id.container, MediaFragment.newInstance(isSuperUser, MediaTypeEnum.IMAGE))
     .commit();
-`
- Also override onActivityResult in MainActivity and below code inside
+```
+
+Also override onActivityResult in MainActivity and below code inside
  
-`
+```
     @Override
         protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -194,16 +195,16 @@ MediaController gives two different user access controller
                 fragment.onActivityResult(requestCode, resultCode, data);
             }
         }
-`
+```
 Also can customize theme style by adding in your colors.xml . Can your favourite colors for **PrimaryColor** ,
 **PrimaryColorDark** and **ColorAccent**
  
-`
+```
 <resources>
     <color name="colorPrimary">#e9b53f57</color>
     <color name="colorPrimaryDark">#b53f47</color>
     <color name="colorAccent">#40a9ff</color>
 </resources>
 
-` 
+``` 
 
