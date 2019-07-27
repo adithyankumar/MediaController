@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -22,6 +23,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.multimedia.controller.R;
 import com.multimedia.controller.utils.Constants;
 import com.multimedia.controller.utils.Media;
+import com.multimedia.controller.utils.SnackBarUtils;
 
 import java.io.File;
 
@@ -152,6 +154,7 @@ public class PlayerActivity extends AppCompatActivity {
 
         @Override
         public void onPlayerError(ExoPlaybackException e) {
+            SnackBarUtils.showError(PlayerActivity.this, e.getMessage());
             if (isBehindLiveWindow(e)) {
                 initializePlayer();
             }
