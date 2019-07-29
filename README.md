@@ -171,8 +171,8 @@ MediaController gives two different user access controller
 ```
          
          
-# Integrate default fragment 
-
+# Integrate Plug In play
+ Can integrate plug in play code , so that no need to call the above api in your application. Please follow the below steps to use default UI with functionalities of the both Super user and Normal user.
 In your MainActivity , inside your onCreate add below code
 
    
